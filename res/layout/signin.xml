@@ -1,31 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
+  android:layout_width="fill_parent"
   android:layout_height="match_parent">
-    <ImageView android:layout_height="wrap_content" android:id="@+id/imageView1" android:layout_width="wrap_content" android:src="@drawable/icon"></ImageView>
-    
-    <TextView 
-    	android:text="TextView" 
-    	android:id="@string/pandora_credentials_label" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content">
-    </TextView>
-    
-    <EditText 
-    	android:text="EditText" 
-    	android:id="@+id/username" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content">
-    </EditText>
-    
-    <EditText 
-    	android:text="EditText" 
-    	android:id="@+id/password" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content"
-    	android:password="true">
-    </EditText>
 
-    <Button android:text="Button" android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+    <TableLayout android:layout_width="fill_parent" android:layout_height="match_parent" android:id="@+id/tableLayout1">
+                
+        <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/imageView1" android:src="@drawable/icon"></ImageView>
+        </TableRow>
+        
+        <TableRow android:id="@+id/welcomeLabel" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView 
+            	android:text="@string/pandora_credentials_label" 
+            	android:id="@+id/textView1" 
+            	android:layout_width="wrap_content" 
+            	android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+        
+        <TableRow android:id="@+id/unRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <EditText  
+            	android:id="@+id/username"
+            	android:hint="@string/enter_username" 
+            	android:layout_width="wrap_content" 
+            	android:layout_height="wrap_content">
+            </EditText>
+        </TableRow>
+        
+        <TableRow android:id="@+id/pwRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <EditText 
+            	android:hint="@string/enter_password" 
+            	android:id="@+id/password" 
+            	android:password="true"
+            	android:layout_width="wrap_content" 
+            	android:layout_height="wrap_content">
+            </EditText>
+        </TableRow>
+        
+        <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <Button 
+            	android:text="Login" 
+            	android:id="@+id/button1" 
+            	android:layout_width="wrap_content" 
+            	android:layout_height="wrap_content">
+            </Button>
+        </TableRow>
+    </TableLayout>
+    
 </LinearLayout>
