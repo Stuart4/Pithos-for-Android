@@ -30,8 +30,8 @@
         
         <TableRow android:id="@+id/pwRow" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <EditText 
-            	android:hint="@string/enter_password" 
-            	android:id="@+id/password" 
+                android:id="@+id/password"
+            	android:hint="@string/enter_password"  
             	android:password="true"
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
@@ -41,11 +41,10 @@
         <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <Button 
             	android:text="Login" 
-            	android:id="@+id/button1" 
+            	android:id="@+id/signinButton" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
         </TableRow>
     </TableLayout>
-    
 </LinearLayout>
