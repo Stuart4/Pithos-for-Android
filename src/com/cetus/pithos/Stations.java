@@ -10,5 +10,4 @@ public class Stations extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stations);
 	}
-	
 }

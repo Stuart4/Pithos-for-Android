@@ -12,13 +12,14 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.main);
         //setContentView(R.layout.stations);    
         
+        User u = new User(getApplicationContext());
         // check if signed in...
-        boolean signedIn = false;
+        boolean signedIn = u.isSignedIn();
         if (signedIn) {
-        	
+        	showStations();
         } else {
         	showSignin();
         }
@@ -48,5 +49,9 @@ public class MainActivity extends Activity {
 
     private void showSignin() {
     	startActivity(new Intent(this, Signin.class));
+    }
+    
+    private void showStations() {
+    	startActivity(new Intent(this, Stations.class));
     }
 }

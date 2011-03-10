@@ -1,6 +1,7 @@
 package com.cetus.pithos;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Signin extends Activity {
+	private User u;
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
+        
+        u = new User(getApplicationContext());
         
         Button login = (Button) findViewById(R.id.signinButton);
         
@@ -28,7 +33,6 @@ public class Signin extends Activity {
 				if (usernameValue.equalsIgnoreCase("") || passwordValue.equalsIgnoreCase("")) {
 					Toast.makeText(getApplicationContext(), "missing credentials", 1000).show();	
 				} else {
-					Toast.makeText(getApplicationContext(), "thanks!", 1000).show();
 					verifyCredentials(usernameValue, passwordValue);
 				}
 			}
@@ -36,17 +40,26 @@ public class Signin extends Activity {
     }
 	
 	private void verifyCredentials(String username, String password) {
-		boolean validCredentials = true;
+		u.setUsername(username);
+		u.setPassword(password);
 		
-		if (validCredentials) {
-			storeCredentials(username, password);
+		boolean validCredentials = u.hasValidCredentials();
+		boolean userExists = u.exists();
+		
+		if (validCredentials && !userExists) {
+			storeCredentials();
+			//Toast.makeText(getApplicationContext(), "Valid credentials", 1000).show();
 		} else {
 			Toast.makeText(getApplicationContext(), "Invalid credentials", 1000).show();
 		}
 	}
 	
-	private void storeCredentials(String username, String password) {
-		User u = new User(getApplicationContext());
-		u.create(username, password);
+	private void storeCredentials() {
+		u.create();
+		 
+		// we're good to go here..let's go to stations.
+		// might be a good idea to create a centralized way to 
+		// handle flow
+		startActivity(new Intent(this, Stations.class));
 	}
 }
