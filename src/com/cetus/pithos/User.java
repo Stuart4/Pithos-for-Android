@@ -20,6 +20,7 @@ public class User {
     public User(Context ctx) {
     	userData = new UserData(ctx);
     	this.context = ctx;
+    	this.loadUser();// loads if user exists
     }
     
     // TODO wrap this, sanitize input but maintain interface
@@ -66,7 +67,6 @@ public class User {
     // user data (ensure multiple values are not able to get into db, etc.)
     public boolean isSignedIn() {
     	SQLiteDatabase db = userData.getReadableDatabase();
-        String select = "Select _id, title, title_raw from search Where(title_raw like " + this.username + ")";
         
         Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
         		null, null, null, null, null);
@@ -74,6 +74,29 @@ public class User {
         int count = cursor.getCount();    
     	
     	return count >= 1;
+    }
+    
+    // TODO: Definitley gonna need a refactor in this class
+    private boolean loadUser() {
+    	SQLiteDatabase db = userData.getReadableDatabase();
+        
+        Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
+        		null, null, null, null, null);
+        
+        // is this necessary, does query return null if there are no results?
+        boolean result = cursor.getCount() >= 1;
+        
+        if (result) {
+        	if (cursor.moveToFirst()) {
+        		int userNameColumn = cursor.getColumnIndex(USERNAME);
+                int passwordColumn = cursor.getColumnIndex(PASSWORD);
+                this.username = cursor.getString(userNameColumn);
+                this.password = cursor.getString(passwordColumn);
+                return true;
+        	}
+        }
+        
+        return false;
     }
     
     // TODO accessors
