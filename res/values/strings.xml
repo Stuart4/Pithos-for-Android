@@ -3,7 +3,7 @@
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Pithos</string>
     <string name="credentials_label">Credentials</string>
-    <string name="pandora_credentials_label">Credentials</string>
+    <string name="pandora_credentials_label">Enter Your Credentials</string>
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
 </resources>
