@@ -16,11 +16,12 @@ public class User {
 	private Context context;
 	private String username;
 	private String password;
-	
+	private Pandora p;
     public User(Context ctx) {
     	userData = new UserData(ctx);
     	this.context = ctx;
     	this.loadUser();// loads if user exists
+        p = new Pandora(ctx, this);    	
     }
     
     // TODO wrap this, sanitize input but maintain interface
@@ -32,20 +33,12 @@ public class User {
     	values.put(PASSWORD, this.password);
 
     	db.insertOrThrow(TABLE_NAME, null, values);
-    }
-    
-    public void setUsername(String username) { 
-        this.username = username;
-    }
-
-    public void setPassword(String password) { 
-        this.password = password;
-    }
+    } 
     
     public boolean hasValidCredentials() {
     	// This is where the credentials entered will be verified 
     	// against the site via RPC
-    	return true;
+    	return p.validCredentials();
     }
     
     // user exists in the database. 
@@ -99,5 +92,20 @@ public class User {
         return false;
     }
     
-    // TODO accessors
+    public void setUsername(String username) { 
+        this.username = username;
+    }
+
+    public void setPassword(String password) { 
+        this.password = password;
+    }
+    
+    public String getUsername() { 
+        return this.username;
+    }
+
+    public String getPassword() { 
+        return this.password;
+    }
+    
 }

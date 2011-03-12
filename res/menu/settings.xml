@@ -6,4 +6,10 @@
     	android:id="@+id/credentials"
     	android:title="Settings"
     	android:icon="@android:drawable/ic_menu_preferences"></item>
+    	
+    <item 
+    	android:menuCategory="container" 
+    	android:id="@+id/about"
+    	android:title="About"
+    	android:icon="@android:drawable/ic_dialog_info"></item>
 </menu>

@@ -4,11 +4,16 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
     
-    <TextView 
-    	android:text="Woo stations are supposed to be here" 
-    	android:id="@+id/textView1" 
-    	android:layout_width="wrap_content" 
+    <Spinner 
+    	android:id="@+id/stationsList" 
+    	android:layout_width="300dip" 
     	android:layout_height="wrap_content">
-    </TextView>
+    </Spinner>
+     
+     <TextView  
+     android:id="@+id/layout_root" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
     
+    />
 </LinearLayout>
