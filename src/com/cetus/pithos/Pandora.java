@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.cetus.pithos.XMLRPC.RPCArg;
 import com.cetus.pithos.XMLRPC.RPCArgString;
 import com.cetus.pithos.XMLRPC.XMLRPC;
+
+import Encryption.BlowFish;
 import android.content.Context;
 
 
@@ -41,13 +43,34 @@ public class Pandora {
     // this is gonna have to be threaded
     private void xmlCall(String method, ArrayList<RPCArg> args) {
     	// looking pretty good here.
-    	String xml = XMLRPC.formCall(method, args);
+    	String xml = XMLRPC.constructCall(method, args);
     	
-    	
+    	String data = this.encrypt(xml);
     }
 
     // encrypt RPC details..
     private String encrypt(String xml) {
+    	BlowFish b = new BlowFish();
+    	String total = "";
+    	
+    	for (int i = 0; i < xml.length(); i+=8) {
+    		if (i + 8 >= xml.length())
+    			break;
+    		
+    		
+    		//padding only used on end	
+    	}
+    	
     	return "";
+    }
+    
+    private String pad(String segment, int l) {
+    	
+    	int i = 0;
+    	while (++i < l - segment.length()) {
+    		segment += "\0";
+    	}
+
+    	return segment;    	
     }
 }

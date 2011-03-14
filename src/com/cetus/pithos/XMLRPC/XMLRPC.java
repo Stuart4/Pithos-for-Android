@@ -7,14 +7,19 @@ public class XMLRPC {
     //public XMLRPC() {}
     
     //xmlrpc_make_call
-    public static String formCall(String method, ArrayList<RPCArg> args) {
+    public static String constructCall(String method, ArrayList<RPCArg> args) {
     	String params = new String();
+    	
+    	Long systemTime = new Long(System.currentTimeMillis());
+    	RPCArg time = new RPCArgInt(systemTime.intValue());
+    	args.add(0, time);
     	
     	for (RPCArg arg : args) {
     		String value = "";
     		Object o = arg.literal();
     		
     		// determine the arg type
+    		// TODO Not handling List type yet
     		if (arg.isString()) {
     			value = "<value><string>" + (String) o + "</string></value>";// value of 'o' was escaped for this
     		} else if (arg.isBoolean()) { 
