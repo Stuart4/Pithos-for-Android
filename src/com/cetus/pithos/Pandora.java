@@ -46,22 +46,27 @@ public class Pandora {
     	String xml = XMLRPC.constructCall(method, args);
     	
     	String data = this.encrypt(xml);
+    	int noop = 0;
     }
 
     // encrypt RPC details..
     private String encrypt(String xml) {
-    	BlowFish b = new BlowFish();
+    	BlowFish b = new BlowFish(PandoraKeys.out_key_p, PandoraKeys.out_key_s);
     	String total = "";
     	
     	for (int i = 0; i < xml.length(); i+=8) {
     		if (i + 8 >= xml.length())
     			break;
     		
+    		String segment = xml.substring(i, i+8);
+    		segment = this.pad(segment, 8);
     		
+    		int[] encrypted = b.encrypt(segment);
+    		total += this.toHexString(encrypted);
     		//padding only used on end	
     	}
     	
-    	return "";
+    	return total;
     }
     
     private String pad(String segment, int l) {
@@ -73,4 +78,15 @@ public class Pandora {
 
     	return segment;    	
     }
+    
+    private String toHexString(int[] encoded) {
+		
+		String result = "";
+		
+		for (int i = 0; i < encoded.length; i++) {
+			result += Integer.toHexString(encoded[i]);
+		}
+		
+		return result;
+	}
 }
