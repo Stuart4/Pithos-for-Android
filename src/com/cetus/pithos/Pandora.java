@@ -54,15 +54,21 @@ public class Pandora {
     	BlowFish b = new BlowFish(PandoraKeys.out_key_p, PandoraKeys.out_key_s);
     	String total = "";
     	
+    	// i = 32 first case when chars messed up
     	for (int i = 0; i < xml.length(); i+=8) {
-    		if (i + 8 >= xml.length())
-    			break;
+    		String segment = "";
     		
-    		String segment = xml.substring(i, i+8);
-    		segment = this.pad(segment, 8);
+    		if (i + 8 >= xml.length()) { 
+    			segment = xml.substring(i, xml.length());
+    			segment = this.pad(segment, 8);
+    		} else {
+    			segment = xml.substring(i, i+8);
+    		}   		 
     		
+    		// almost there. Still missing a few chars
     		int[] encrypted = b.encrypt(segment);
-    		total += this.toHexString(encrypted);
+    		String updated = this.toHexString(encrypted);
+    		total += updated;
     		//padding only used on end	
     	}
     	
@@ -78,7 +84,7 @@ public class Pandora {
 
     	return segment;    	
     }
-    
+        
     private String toHexString(int[] encoded) {
 		
 		String result = "";
