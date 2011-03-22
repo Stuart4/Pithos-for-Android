@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.cetus.pithos.XMLRPC.RPCArg;
 import com.cetus.pithos.XMLRPC.RPCArgString;
 import com.cetus.pithos.XMLRPC.XMLRPC;
+import com.cetus.pithos.Utils.UnicodeFormatter;
 
 import Encryption.BlowFish;
 import android.content.Context;
@@ -66,9 +67,9 @@ public class Pandora {
     		}   		 
     		
     		// almost there. Still missing a few chars
-    		int[] encrypted = b.encrypt(segment);
-    		String updated = this.toHexString(encrypted);
-    		total += updated;
+    		char[] encrypted = b.encrypt(segment);
+    		
+    		total += UnicodeFormatter.hexString(encrypted);
     		//padding only used on end	
     	}
     	
@@ -84,15 +85,4 @@ public class Pandora {
 
     	return segment;    	
     }
-        
-    private String toHexString(int[] encoded) {
-		
-		String result = "";
-		
-		for (int i = 0; i < encoded.length; i++) {
-			result += Integer.toHexString(encoded[i]);
-		}
-		
-		return result;
-	}
 }

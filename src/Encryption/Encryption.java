@@ -6,7 +6,7 @@ public interface Encryption {
 	
     // not sure what these  are going to return at the moment
 	// these will pbly return byte arrays
-	int[] encrypt(String toEncrypt);
-	int[] decrypt(String toDecrypt);
+	char[] encrypt(String toEncrypt);
+	char[] decrypt(String toDecrypt);
 	
 }

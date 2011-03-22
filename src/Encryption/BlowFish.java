@@ -15,14 +15,14 @@ public class BlowFish implements Encryption {
         this.modulus = (long) Math.pow(2, 32); // correct
     }
     
-    public int[] decrypt(String data) {
-    	int[] dummies = {};
+    public char[] decrypt(String data) {
+    	char[] dummies = {};
     	// TODO
     	return dummies;
     }
     
-     public int[] encrypt(String data) {
-        int[] dummies = {};
+     public char[] encrypt(String data) {
+        char[] dummies = {};
         
         if (data.length() != 8) {
             return dummies; // throw runtime error
@@ -37,12 +37,12 @@ public class BlowFish implements Encryption {
         
         long cl = result[0];
         long cr = result[1];
+       
         
-        int[] encoded = {
-        		(char) ((cl >> 24) & 0xFF), (char) ((cl >> 16) & 0xFF), (char) ((cl >> 8) & 0xFF), (char) (cl & 0xFF),
-        		(char) ((cr >> 24) & 0xFF), (char) ((cr >> 16) & 0xFF), (char) ((cr >> 8) & 0xFF), (char) (cr & 0xFF)        
+        char[] encoded = {
+        	(char) ((cl >> 24) & 0xFF), (char) ((cl >> 16) & 0xFF), (char) ((cl >> 8) & 0xFF), (char) (cl & 0xFF),
+        	(char) ((cr >> 24) & 0xFF), (char) ((cr >> 16) & 0xFF), (char) ((cr >> 8) & 0xFF), (char) (cr & 0xFF)        
         };
-        
         return encoded;
     }
     
