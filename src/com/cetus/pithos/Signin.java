@@ -1,8 +1,12 @@
 package com.cetus.pithos;
 
+import com.cetus.pithos.XMLRPC.RPCCallback;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +25,7 @@ public class Signin extends Activity {
         Button login = (Button) findViewById(R.id.signinButton);
         
         login.setOnClickListener(new View.OnClickListener() {
-			@Override
+            @Override
 			public void onClick(View v) {
 				// get the username and password
 				TextView un = (EditText) findViewById(R.id.username);
@@ -43,15 +47,25 @@ public class Signin extends Activity {
 		u.setUsername(username);
 		u.setPassword(password);
 		
-		boolean validCredentials = u.hasValidCredentials();
-		boolean userExists = u.exists();
+		RPCCallback successCb = new RPCCallback() {
+			public void fire(Thread t) {
+				// we are here after we have succeeded or failed at out RPC
+				// call
+				
+				t.stop(); // don't think im stoping these right
+				Log.i("pithos", "Firing success callback");			
+			}			
+		};
 		
-		if (validCredentials && !userExists) {
-			storeCredentials();
-			//Toast.makeText(getApplicationContext(), "Valid credentials", 1000).show();
-		} else {
-			Toast.makeText(getApplicationContext(), "Invalid credentials", 1000).show();
-		}
+		RPCCallback errorCb = new RPCCallback() {
+			public void fire(Thread t) {
+				// we are here after we have succeeded or failed at out RPC
+				// call
+				Log.e("pithos", "Firing error callback");
+			}			
+		};
+		
+		u.verifyCredentials(successCb, errorCb);
 	}
 	
 	private void storeCredentials() {

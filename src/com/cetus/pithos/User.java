@@ -1,5 +1,7 @@
 package com.cetus.pithos;
 
+import com.cetus.pithos.XMLRPC.RPCCallback;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -35,10 +37,17 @@ public class User {
     	db.insertOrThrow(TABLE_NAME, null, values);
     } 
     
-    public boolean hasValidCredentials() {
+    public void verifyCredentials(RPCCallback successCb, RPCCallback errorCb) {
+    	// here check if credentials exist in DB. If not,
+    	// run RPC call
+    	if (this.exists()) {
+    		return;//throw an exception?
+    	}
+    	
     	// This is where the credentials entered will be verified 
     	// against the site via RPC
-    	return p.validCredentials();
+    	//return p.validCredentials();
+    	p.authenticateListener(successCb, errorCb);
     }
     
     // user exists in the database. 

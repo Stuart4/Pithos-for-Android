@@ -1,14 +1,23 @@
 package com.cetus.pithos;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.cetus.pithos.XMLRPC.RPCArg;
 import com.cetus.pithos.XMLRPC.RPCArgString;
+import com.cetus.pithos.XMLRPC.RPCCallback;
 import com.cetus.pithos.XMLRPC.XMLRPC;
 import com.cetus.pithos.Utils.UnicodeFormatter;
 
 import Encryption.BlowFish;
 import android.content.Context;
+import android.util.Log;
 
 
 public class Pandora {
@@ -23,31 +32,59 @@ public class Pandora {
     	this.u = u;
     }
     
-    public boolean validCredentials() {
-    	authenticateListener();
-    	return true;
-    }
-    
     public void getStations() {
     	
     }
     
-    public void authenticateListener() {
+    public void authenticateListener(RPCCallback successCb, RPCCallback errorCb) {
+    	
     	ArrayList<RPCArg> args = new ArrayList<RPCArg>();
     	args.add(new RPCArgString(u.getUsername()));
     	args.add(new RPCArgString(u.getPassword()));
     	
-    	xmlCall("listener.authenticateListener", args);
+    	xmlCall("listener.authenticateListener", args, successCb, errorCb);
     }
     
     // Here's our gateway to the RPC interface.
     // this is gonna have to be threaded
-    private void xmlCall(String method, ArrayList<RPCArg> args) {
+    private void xmlCall(String method, ArrayList<RPCArg> args, final RPCCallback successCb, final RPCCallback errorCb) {
     	// looking pretty good here.
     	String xml = XMLRPC.constructCall(method, args);
     	
     	String data = this.encrypt(xml);
-    	int noop = 0;
+    	
+    	new Thread() {
+    		public void run() {
+    			try {
+    				URL text = new URL("http://google.com");
+    			
+					HttpURLConnection http =
+						(HttpURLConnection)text.openConnection();
+					
+					InputStream inputStream = http.getInputStream();
+					
+					BufferedReader bufferedReader = new BufferedReader(
+			                new InputStreamReader(inputStream));
+					
+					Log.i("Net", "responsecode = " + http.getResponseCode());
+					
+					String temp;
+				    while ((temp = bufferedReader.readLine()) != null) {
+				    	Log.i("Net", "content line = " + temp);
+				    }
+				    
+				    successCb.fire(this);
+				} catch (MalformedURLException mue) {
+					errorCb.fire(this);
+					mue.printStackTrace();
+				} catch (IOException e) {
+					errorCb.fire(this);
+					// TODO Auto-generated catch block
+					// message saying "cannot connect to internet"
+					e.printStackTrace();
+				}
+    		}
+    	}.start();    	
     }
 
     // encrypt RPC details..
