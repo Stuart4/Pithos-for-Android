@@ -3,6 +3,7 @@ package com.cetus.pithos;
 import com.cetus.pithos.XMLRPC.RPCCallback;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,20 +48,35 @@ public class Signin extends Activity {
 		u.setUsername(username);
 		u.setPassword(password);
 		
+		// start progress here?
+		final ProgressDialog myProgressDialog = ProgressDialog.show(this,
+                "Please wait...", "Verifying Credentials...", true);// TODO Externalize
+		
+        final Intent stations = new Intent(this, Stations.class);
+        //final Context c = getApplicationContext();
+        
 		RPCCallback successCb = new RPCCallback() {
-			public void fire(Thread t) {
+			public void fire() {
 				// we are here after we have succeeded or failed at out RPC
 				// call
 				
-				t.stop(); // don't think im stoping these right
+				//end progress here?
+				myProgressDialog.dismiss();
+				// we have succeeded...show stations
+				startActivity(stations);
+				
 				Log.i("pithos", "Firing success callback");			
 			}			
 		};
 		
 		RPCCallback errorCb = new RPCCallback() {
-			public void fire(Thread t) {
+			public void fire() {
 				// we are here after we have succeeded or failed at out RPC
 				// call
+				
+				myProgressDialog.dismiss();
+				//Toast.makeText(c, "Invalid Credentials", 1000).show();
+				
 				Log.e("pithos", "Firing error callback");
 			}			
 		};

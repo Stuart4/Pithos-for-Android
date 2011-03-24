@@ -13,6 +13,7 @@ import com.cetus.pithos.XMLRPC.RPCArg;
 import com.cetus.pithos.XMLRPC.RPCArgString;
 import com.cetus.pithos.XMLRPC.RPCCallback;
 import com.cetus.pithos.XMLRPC.XMLRPC;
+import com.cetus.pithos.XMLRPC.XMLRPCCallTask;
 import com.cetus.pithos.Utils.UnicodeFormatter;
 
 import Encryption.BlowFish;
@@ -53,38 +54,8 @@ public class Pandora {
     	
     	String data = this.encrypt(xml);
     	
-    	new Thread() {
-    		public void run() {
-    			try {
-    				URL text = new URL("http://google.com");
-    			
-					HttpURLConnection http =
-						(HttpURLConnection)text.openConnection();
-					
-					InputStream inputStream = http.getInputStream();
-					
-					BufferedReader bufferedReader = new BufferedReader(
-			                new InputStreamReader(inputStream));
-					
-					Log.i("Net", "responsecode = " + http.getResponseCode());
-					
-					String temp;
-				    while ((temp = bufferedReader.readLine()) != null) {
-				    	Log.i("Net", "content line = " + temp);
-				    }
-				    
-				    successCb.fire(this);
-				} catch (MalformedURLException mue) {
-					errorCb.fire(this);
-					mue.printStackTrace();
-				} catch (IOException e) {
-					errorCb.fire(this);
-					// TODO Auto-generated catch block
-					// message saying "cannot connect to internet"
-					e.printStackTrace();
-				}
-    		}
-    	}.start();    	
+    	new XMLRPCCallTask(successCb, errorCb).execute();
+    	
     }
 
     // encrypt RPC details..

@@ -37,6 +37,8 @@ public class User {
     	db.insertOrThrow(TABLE_NAME, null, values);
     } 
     
+    // TODO change the name of this method...there is a method in Signin by the same name
+    // confusing
     public void verifyCredentials(RPCCallback successCb, RPCCallback errorCb) {
     	// here check if credentials exist in DB. If not,
     	// run RPC call
@@ -55,12 +57,16 @@ public class User {
     public boolean exists() {
     	SQLiteDatabase db = userData.getReadableDatabase();
         String select = "Select _id, title, title_raw from search Where(title_raw like " + this.username + ")";
-        
+                
         Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
         		USERNAME + " like '%" + this.username + "%'", null, null, null, null);
         
+        db.close();
+        
         int count = cursor.getCount();        
     	
+        cursor.close();
+        
     	return count >= 1;
     }
      
@@ -85,6 +91,7 @@ public class User {
         Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
         		null, null, null, null, null);
         
+        db.close();
         // is this necessary, does query return null if there are no results?
         boolean result = cursor.getCount() >= 1;
         
@@ -97,6 +104,8 @@ public class User {
                 return true;
         	}
         }
+        
+        cursor.close();
         
         return false;
     }
