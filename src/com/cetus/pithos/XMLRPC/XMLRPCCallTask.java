@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,12 +23,24 @@ public class XMLRPCCallTask extends AsyncTask {
 	
 	@Override
 	protected Object doInBackground(Object... arg0) {
+		String responseString = "";
+		
 		try {
 			URL text = new URL("http://google.com");
 		
 			HttpURLConnection http =
 				(HttpURLConnection)text.openConnection();
 			
+			/*
+			http.setDoOutput(true);
+			
+			OutputStreamWriter out = new OutputStreamWriter(
+                    http.getOutputStream());
+			
+			// Data to post here
+			out.write("");
+			out.close();
+			*/
 			InputStream inputStream = http.getInputStream();
 			
 			BufferedReader bufferedReader = new BufferedReader(
@@ -36,17 +49,17 @@ public class XMLRPCCallTask extends AsyncTask {
 			Log.i("Net", "responsecode = " + http.getResponseCode());
 			
 			String temp;
-		    while ((temp = bufferedReader.readLine()) != null) {
+			while ((temp = bufferedReader.readLine()) != null) {
+		    	responseString += temp;
 		    	Log.i("Net", "content line = " + temp);
 		    }
 		    
-		    successCb.fire();
-		    //errorCb.fire(); FIXME FC when trying to Toast in errorCb
+		    successCb.fire(new XMLRPCResponse(responseString));
 		} catch (MalformedURLException mue) {
-			errorCb.fire();
+			errorCb.fire(new XMLRPCResponse(responseString));
 			mue.printStackTrace();
 		} catch (IOException e) {
-			errorCb.fire();
+			errorCb.fire(new XMLRPCResponse(responseString));
 			// TODO Auto-generated catch block
 			// message saying "cannot connect to internet"
 			e.printStackTrace();

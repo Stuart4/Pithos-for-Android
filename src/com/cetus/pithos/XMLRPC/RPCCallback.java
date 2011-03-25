@@ -1,5 +1,5 @@
 package com.cetus.pithos.XMLRPC;
 
 public abstract class RPCCallback {
-	public abstract void fire();
+	public abstract void fire(XMLRPCResponse response);
 }

@@ -10,7 +10,7 @@ public class XMLRPC {
     public static String constructCall(String method, ArrayList<RPCArg> args) {
     	String params = new String();
     	
-    	Long systemTime = new Long(System.currentTimeMillis());
+    	Long systemTime = System.currentTimeMillis() / 1000L;
     	RPCArg time = new RPCArgInt(systemTime.intValue());
     	args.add(0, time);
     	

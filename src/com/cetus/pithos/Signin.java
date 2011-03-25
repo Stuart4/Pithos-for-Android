@@ -1,6 +1,7 @@
 package com.cetus.pithos;
 
 import com.cetus.pithos.XMLRPC.RPCCallback;
+import com.cetus.pithos.XMLRPC.XMLRPCResponse;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -38,13 +39,13 @@ public class Signin extends Activity {
 				if (usernameValue.equalsIgnoreCase("") || passwordValue.equalsIgnoreCase("")) {
 					Toast.makeText(getApplicationContext(), "missing credentials", 1000).show();	
 				} else {
-					verifyCredentials(usernameValue, passwordValue);
+					validateUser(usernameValue, passwordValue);
 				}
 			}
 		});        
     }
 	
-	private void verifyCredentials(String username, String password) {
+	private void validateUser(String username, String password) {
 		u.setUsername(username);
 		u.setPassword(password);
 		
@@ -52,11 +53,14 @@ public class Signin extends Activity {
 		final ProgressDialog myProgressDialog = ProgressDialog.show(this,
                 "Please wait...", "Verifying Credentials...", true);// TODO Externalize
 		
+		final Context c = this;
+		
         final Intent stations = new Intent(this, Stations.class);
-        //final Context c = getApplicationContext();
+        final Toast invalid = Toast.makeText(c, "Invalid Credentials", 1000);
+        
         
 		RPCCallback successCb = new RPCCallback() {
-			public void fire() {
+			public void fire(XMLRPCResponse response) {
 				// we are here after we have succeeded or failed at out RPC
 				// call
 				
@@ -70,13 +74,11 @@ public class Signin extends Activity {
 		};
 		
 		RPCCallback errorCb = new RPCCallback() {
-			public void fire() {
+			public void fire(XMLRPCResponse response) {
 				// we are here after we have succeeded or failed at out RPC
 				// call
-				
 				myProgressDialog.dismiss();
-				//Toast.makeText(c, "Invalid Credentials", 1000).show();
-				
+				invalid.show();
 				Log.e("pithos", "Firing error callback");
 			}			
 		};
