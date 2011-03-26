@@ -10,34 +10,40 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import com.cetus.pithos.XMLRPC.RPCArg;
+import com.cetus.pithos.XMLRPC.RPCArgInt;
+import com.cetus.pithos.XMLRPC.RPCArgNoType;
 import com.cetus.pithos.XMLRPC.RPCArgString;
 import com.cetus.pithos.XMLRPC.RPCCallback;
 import com.cetus.pithos.XMLRPC.XMLRPC;
 import com.cetus.pithos.XMLRPC.XMLRPCCallTask;
 import com.cetus.pithos.Utils.UnicodeFormatter;
+import com.cetus.pithos.Encryption.BlowFish;
 
-import Encryption.BlowFish;
+import static com.cetus.pithos.Constants.RPC_URL;
+
 import android.content.Context;
 import android.util.Log;
 
 
 public class Pandora {
-    private User u;
+    //private User u;
 	private Context context;
-	private final String PROTOCOL_VERSION = "29";
-	private final String RPC_URL = "http://www.pandora.com/radio/xmlrpc/v"+PROTOCOL_VERSION+"?";
-	private final String USER_AGENT = "Pithos/0.2";
 	
-	public Pandora(Context ctx, User u) {
+	public Pandora(Context ctx) {
     	this.context = ctx;
-    	this.u = u;
     }
     
-    public void getStations() {
+    public void getStations(RPCCallback successCb, RPCCallback errorCb) {
+    	User u = User.getSingleton(this.context);
     	
+    	ArrayList<RPCArg> args = new ArrayList<RPCArg>();
+    	args.add(new RPCArgNoType(u.getAttribute("authToken")));
+    	
+    	xmlCall("station.getStations", args, successCb, errorCb);
     }
     
     public void authenticateListener(RPCCallback successCb, RPCCallback errorCb) {
+    	User u = User.getSingleton(this.context);
     	
     	ArrayList<RPCArg> args = new ArrayList<RPCArg>();
     	args.add(new RPCArgString(u.getUsername()));
@@ -54,8 +60,17 @@ public class Pandora {
     	
     	String data = this.encrypt(xml);
     	
-    	new XMLRPCCallTask(successCb, errorCb).execute();
+    	String url = RPC_URL;
+    	    	
+    	url += "rid=" + this.getRid();
+    	    	
+    	if (this.getListenerId() != null) {
+    		url += "lid=" + this.getListenerId();
+    	}
     	
+    	url += "&method=" + method;
+    	
+    	new XMLRPCCallTask(url, data, successCb, errorCb).execute();
     }
 
     // encrypt RPC details..
@@ -63,7 +78,7 @@ public class Pandora {
     	BlowFish b = new BlowFish(PandoraKeys.out_key_p, PandoraKeys.out_key_s);
     	String total = "";
     	
-    	// i = 32 first case when chars messed up
+    	// i = 296 when padding gets attached. 
     	for (int i = 0; i < xml.length(); i+=8) {
     		String segment = "";
     		
@@ -87,10 +102,25 @@ public class Pandora {
     private String pad(String segment, int l) {
     	
     	int i = 0;
-    	while (++i < l - segment.length()) {
+    	int count = l - segment.length();
+    	while (i++ < count) {
     		segment += "\0";
     	}
 
     	return segment;    	
+    }
+
+    private String getRid() {
+    	int systemTime = new Long(System.currentTimeMillis() / 1000L).intValue();
+    	systemTime = systemTime % 10000000;
+    	
+    	// not sure this is right
+    	// coming from "self.rid = "%07iP"%(int(time.time()) % 10000000)"
+        return systemTime + "P";
+    }
+
+    private String getListenerId() {
+    	User u = User.getSingleton(this.context);
+    	return u.getAttribute("listenerId");
     }
 }

@@ -26,6 +26,8 @@ public class XMLRPC {
     			value = "<value><boolean>" + (Boolean) o + "</boolean></value>";// value of 'o' was escaped for this
     		} else if (arg.isInteger()) {
     			value = "<value><int>" + (Integer) o + "</int></value>";// value of 'o' was escaped for this
+    		} else { // RPCArgNoType
+    			value = "<value>" + (String) o + "</value>";
     		}
     		
     		params += "<param>" + value + "</param>";

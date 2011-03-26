@@ -1,5 +1,7 @@
 package com.cetus.pithos;
 
+import java.util.HashMap;
+
 import com.cetus.pithos.XMLRPC.RPCCallback;
 
 import android.content.ContentValues;
@@ -19,11 +21,14 @@ public class User {
 	private String username;
 	private String password;
 	private Pandora p;
+	private static User singleton;
+	HashMap attributes = new HashMap();
+	
     public User(Context ctx) {
     	userData = new UserData(ctx);
     	this.context = ctx;
     	this.loadUser();// loads if user exists
-        p = new Pandora(ctx, this);    	
+        p = new Pandora(ctx);    	
     }
     
     // TODO wrap this, sanitize input but maintain interface
@@ -48,7 +53,6 @@ public class User {
     	
     	// This is where the credentials entered will be verified 
     	// against the site via RPC
-    	//return p.validCredentials();
     	p.authenticateListener(successCb, errorCb);
     }
     
@@ -82,6 +86,28 @@ public class User {
         int count = cursor.getCount();    
     	
     	return count >= 1;
+    }
+    
+    public static synchronized User getSingleton(Context c) {
+    	if (singleton == null)
+    		singleton = new User(c);
+    	
+    	return singleton;
+    }
+    
+    // this is ugly...having a hard time getting a 'context' var to 
+    // feed this every time. it's (the context) only needed the first time (hopefully). FIXME
+    public static synchronized User getSingleton() {
+    	return singleton;
+    }
+    
+    public void setAttribute(String key, String value) {
+    	attributes.put(key, value);
+    }
+    
+    public String getAttribute(String key) {
+    	// exception needed?
+    	return (String) this.attributes.get(key);
     }
     
     // TODO: Definitley gonna need a refactor in this class

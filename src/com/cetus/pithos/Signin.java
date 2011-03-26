@@ -22,7 +22,7 @@ public class Signin extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
         
-        u = new User(getApplicationContext());
+        u = User.getSingleton(getApplicationContext());
         
         Button login = (Button) findViewById(R.id.signinButton);
         
@@ -58,14 +58,18 @@ public class Signin extends Activity {
         final Intent stations = new Intent(this, Stations.class);
         final Toast invalid = Toast.makeText(c, "Invalid Credentials", 1000);
         
-        
-		RPCCallback successCb = new RPCCallback() {
+        RPCCallback successCb = new RPCCallback() {
 			public void fire(XMLRPCResponse response) {
 				// we are here after we have succeeded or failed at out RPC
 				// call
 				
 				//end progress here?
 				myProgressDialog.dismiss();
+				
+				// parse response, add to user
+				response.parseUser();
+				
+				User u = User.getSingleton();
 				// we have succeeded...show stations
 				startActivity(stations);
 				

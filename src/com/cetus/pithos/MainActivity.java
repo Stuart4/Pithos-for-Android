@@ -15,7 +15,7 @@ public class MainActivity extends Activity {
         //setContentView(R.layout.main);
         //setContentView(R.layout.stations);    
         
-        User u = new User(getApplicationContext());
+        User u = User.getSingleton(getApplicationContext());
         // check if signed in...
         boolean signedIn = false;//u.isSignedIn();
         if (signedIn) {
