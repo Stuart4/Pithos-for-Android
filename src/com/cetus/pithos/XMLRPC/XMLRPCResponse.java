@@ -15,7 +15,8 @@ import org.xml.sax.InputSource;
 import com.cetus.pithos.User;
 
 public class XMLRPCResponse {
-	
+	// TODO: this whole class is a disaster. Need either a better way of handling XML
+	// or a serious refactor
 	private String xml;
 	
     public XMLRPCResponse(String xml) {
@@ -72,7 +73,7 @@ public class XMLRPCResponse {
     	
     	try {
     		DocumentBuilderFactory dbf =
-    	    DocumentBuilderFactory.newInstance();
+    			DocumentBuilderFactory.newInstance();
     	    DocumentBuilder db = dbf.newDocumentBuilder();
     	    InputSource is = new InputSource();
     	    is.setCharacterStream(new StringReader(this.getResponseString()));
@@ -84,20 +85,72 @@ public class XMLRPCResponse {
     	    for (int i = 0; i < nodes.getLength(); i++) {
     	        Element element = (Element) nodes.item(i);
 
-    	        NodeList value = element.getElementsByTagName("value");
-    	        Element line = (Element) name.item(0);
-    	        line = (Element) value.item(0);
+    	       // NodeList value = element.getElementsByTagName("value");
+    	       // Element line = (Element) name.item(0);
+    	       // line = (Element) value.item(0);
     	       
     	           
     	        //User.getSingleton().setAttribute(key, value);
     	    }
     	} catch (Exception e) {
 	        e.printStackTrace();
+	    }    	
+    }
+    
+    public boolean hasFault() {        
+        try {
+    		DocumentBuilderFactory dbf =
+    	    DocumentBuilderFactory.newInstance();
+    	    DocumentBuilder db = dbf.newDocumentBuilder();
+    	    InputSource is = new InputSource();
+    	    is.setCharacterStream(new StringReader(this.getResponseString()));
+
+			/*
+			<methodResponse>
+			    <fault>
+			        <value>
+			            <struct>
+			                <member>
+			                    <name>faultString</name>
+			                    <value>com.savagebeast.radio.api.protocol.xmlrpc.RadioXmlRpcException: 192.168.162.47|1301164165871|AUTH_INVALID_USERNAME_PASSWORD|Invalid username and/or password</value>
+			                </member>
+			                <member>
+			                    <name>faultCode</name>
+			                    <value>
+			                        <int>1</int>
+			                    </value>
+			                </member>
+			            </struct>
+			        </value>
+			    </fault>
+			</methodResponse>
+			*/
+    	     
+    	    Document doc = db.parse(is);
+    	    NodeList nodes = doc.getElementsByTagName("fault");
+
+    	    boolean hasFault = nodes.getLength() != 0;
+    	    // iterate the employees
+    	    
+    	    if (!hasFault) {
+    	        return false;	
+    	    }
+    	    
+    	    for (int i = 0; i < nodes.getLength(); i++) {
+    	        Element element = (Element) nodes.item(i);
+
+    	       // NodeList value = element.getElementsByTagName("value");
+    	       // Element line = (Element) name.item(0);
+    	       // line = (Element) value.item(0);
+    	       
+    	           
+    	        //User.getSingleton().setAttribute(key, value);
+    	        
+    	    }
+    	} catch (Exception e) {
+	        e.printStackTrace();
 	    }
     	
-    	
-    	
-    	
-    	
+		return true;    	
     }
 }

@@ -56,33 +56,35 @@ public class Signin extends Activity {
 		final Context c = this;
 		
         final Intent stations = new Intent(this, Stations.class);
-        final Toast invalid = Toast.makeText(c, "Invalid Credentials", 1000);
+        final Toast invalidCredentials = Toast.makeText(c, "Invalid Credentials", 1000);
+        final Toast error = Toast.makeText(c, "A non-rpc error has occurred. Maybe bad url or io issue. suckin' :-(", 1000);
         
         RPCCallback successCb = new RPCCallback() {
 			public void fire(XMLRPCResponse response) {
-				// we are here after we have succeeded or failed at out RPC
-				// call
+				Log.i("pithos", "Firing success callback for signin");
 				
 				//end progress here?
 				myProgressDialog.dismiss();
 				
-				// parse response, add to user
-				response.parseUser();
-				
-				User u = User.getSingleton();
-				// we have succeeded...show stations
-				startActivity(stations);
-				
-				Log.i("pithos", "Firing success callback");			
+				if (response.hasFault()) {
+					invalidCredentials.show();
+				} else {
+					// parse response, add to user
+					response.parseUser();
+					
+					User u = User.getSingleton();
+					// we have succeeded...show stations
+					startActivity(stations);					
+				}
 			}			
 		};
 		
 		RPCCallback errorCb = new RPCCallback() {
-			public void fire(XMLRPCResponse response) {
-				// we are here after we have succeeded or failed at out RPC
-				// call
+			public void fire(XMLRPCResponse response) { 
+				
+				// this is a network error. not a credentials signin error
 				myProgressDialog.dismiss();
-				invalid.show();
+				error.show();
 				Log.e("pithos", "Firing error callback");
 			}			
 		};

@@ -40,7 +40,7 @@ public class Stations extends Activity {
 		final Context c = this;
 		
         final Intent stations = new Intent(this, Stations.class);
-        final Toast invalid = Toast.makeText(c, "Invalid Credentials", 1000);
+        final Toast invalid = Toast.makeText(c, "Cannot retrieve stations", 1000);
         
         RPCCallback successCb = new RPCCallback() {
 			public void fire(XMLRPCResponse response) {
@@ -51,7 +51,7 @@ public class Stations extends Activity {
 				myProgressDialog.dismiss();
 				
 				// parse response
-				response.parseUser();
+				response.parseStations();
 				
 				Log.i("pithos", "Firing success callback for stations");
 			}			
@@ -67,7 +67,7 @@ public class Stations extends Activity {
 			}			
 		};
         
-        p.getStations(successCb, errorCb);
+        //p.getStations(successCb, errorCb);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
