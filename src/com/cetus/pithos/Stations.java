@@ -1,5 +1,7 @@
 package com.cetus.pithos;
 
+import java.util.ArrayList;
+
 import com.cetus.pithos.XMLRPC.RPCCallback;
 import com.cetus.pithos.XMLRPC.XMLRPCResponse;
 
@@ -17,7 +19,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,11 +55,21 @@ public class Stations extends Activity {
 				myProgressDialog.dismiss();
 				
 				// parse response
-				response.parseStations();
+				// woo hoo! got station names
+				ArrayList<String> stationNames = response.parseStations();
+				
+				// FC being thrown here
+				
+				Spinner s = (Spinner) findViewById(R.id.stationsList);
+				ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, stationNames);
+				
+				s.setAdapter(adapter);
 				
 				Log.i("pithos", "Firing success callback for stations");
 			}			
 		};
+		
+		successCb.setContext(c);
 		
 		RPCCallback errorCb = new RPCCallback() {
 			public void fire(XMLRPCResponse response) {
@@ -67,7 +81,7 @@ public class Stations extends Activity {
 			}			
 		};
         
-        //p.getStations(successCb, errorCb);
+        p.getStations(successCb, errorCb);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {

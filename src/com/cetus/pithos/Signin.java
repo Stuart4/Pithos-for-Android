@@ -55,7 +55,7 @@ public class Signin extends Activity {
 		
 		final Context c = this;
 		
-        final Intent stations = new Intent(this, Stations.class);
+       
         final Toast invalidCredentials = Toast.makeText(c, "Invalid Credentials", 1000);
         final Toast error = Toast.makeText(c, "A non-rpc error has occurred. Maybe bad url or io issue. suckin' :-(", 1000);
         
@@ -73,6 +73,7 @@ public class Signin extends Activity {
 					response.parseUser();
 					
 					User u = User.getSingleton();
+					Intent stations = new Intent(c, Stations.class);
 					// we have succeeded...show stations
 					startActivity(stations);					
 				}
