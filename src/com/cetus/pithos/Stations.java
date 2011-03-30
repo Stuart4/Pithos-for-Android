@@ -63,6 +63,7 @@ public class Stations extends Activity {
 				
 				Spinner s = (Spinner) findViewById(R.id.stationsList);
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, stationNames);
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				
 				s.setAdapter(adapter);
 				
@@ -111,12 +112,11 @@ public class Stations extends Activity {
     	  super.onConfigurationChanged(newConfig);
     }
 
-    
     private void showSettings() {
     	startActivity(new Intent(this, Settings.class));
     }
     
     private void showAbout() { 
-    	//TODO
+    	startActivity(new Intent(this, About.class));
     }
 }

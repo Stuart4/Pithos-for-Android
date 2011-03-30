@@ -73,6 +73,9 @@ public class Signin extends Activity {
 					response.parseUser();
 					
 					User u = User.getSingleton();
+					
+					u.create();
+					
 					Intent stations = new Intent(c, Stations.class);
 					// we have succeeded...show stations
 					startActivity(stations);					
@@ -91,14 +94,5 @@ public class Signin extends Activity {
 		};
 		
 		u.verifyCredentials(successCb, errorCb);
-	}
-	
-	private void storeCredentials() {
-		u.create();
-		 
-		// we're good to go here..let's go to stations.
-		// might be a good idea to create a centralized way to 
-		// handle flow
-		startActivity(new Intent(this, Stations.class));
 	}
 }

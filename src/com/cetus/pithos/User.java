@@ -28,7 +28,7 @@ public class User {
     	userData = new UserData(ctx);
     	this.context = ctx;
     	this.loadUser();// loads if user exists
-        p = new Pandora(ctx);    	
+        p = new Pandora(ctx);
     }
     
     // TODO wrap this, sanitize input but maintain interface

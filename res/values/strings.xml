@@ -6,4 +6,5 @@
     <string name="pandora_credentials_label">Enter Your Credentials</string>
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
+    <string name="about">About text that needs to be added</string>
 </resources>

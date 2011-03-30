@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
         
         User u = User.getSingleton(getApplicationContext());
         // check if signed in...
-        boolean signedIn = false;//u.isSignedIn();
+        boolean signedIn = u.isSignedIn();
         if (signedIn) {
         	showStations();
         } else {
