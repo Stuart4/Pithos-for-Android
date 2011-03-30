@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,6 +105,12 @@ public class Stations extends Activity {
             return super.onOptionsItemSelected(item);
         }
     }
+    
+    //ignore orientation change
+    public void onConfigurationChanged(Configuration newConfig) {
+    	  super.onConfigurationChanged(newConfig);
+    }
+
     
     private void showSettings() {
     	startActivity(new Intent(this, Settings.class));
