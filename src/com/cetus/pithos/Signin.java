@@ -58,15 +58,13 @@ public class Signin extends Activity {
 		u.setUsername(username);
 		u.setPassword(password);
 		
-		// start progress here?
 		final ProgressDialog myProgressDialog = ProgressDialog.show(this,
-                "Please wait...", "Verifying Credentials...", true);// TODO Externalize
+               getString(R.string.please_wait), getString(R.string.verifying_credentials), true);// TODO Externalize
 		
 		final Context c = this;
 		
-       
-        final Toast invalidCredentials = Toast.makeText(c, "Invalid Credentials", 1000);
-        final Toast error = Toast.makeText(c, "A non-rpc error has occurred. Maybe bad url or io issue. suckin' :-(", 1000);
+        final Toast invalidCredentials = Toast.makeText(c, R.string.invalid_credentials, 1000);
+        final Toast error = Toast.makeText(c, R.string.general_error, 1000);
         
         RPCCallback successCb = new RPCCallback() {
 			public void fire(XMLRPCResponse response) {

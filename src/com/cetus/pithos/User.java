@@ -3,54 +3,32 @@ package com.cetus.pithos;
 import java.util.HashMap;
 
 import com.cetus.pithos.XMLRPC.RPCCallback;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
-import static android.provider.BaseColumns._ID;
-import static com.cetus.pithos.Constants.TABLE_NAME;
-import static com.cetus.pithos.Constants.USERNAME;
-import static com.cetus.pithos.Constants.PASSWORD;
 
 public class User {
-	private UserData userData;
 	private Context context;
 	private String username = null;
 	private String password = null;
 	private Pandora p;
 	private static User singleton;
-	HashMap attributes = new HashMap();
+	private HashMap attributes = new HashMap();
 	
     public User(Context ctx) {
-    	//userData = new UserData(ctx);
     	this.context = ctx;
-    	this.loadUser();// loads if user exists
+    	this.loadUser();
         p = new Pandora(ctx);
     }
     
-    // TODO wrap this, sanitize input but maintain interface
     public void create() {
     	// add credentials to preferences
     	this.prefsSetUserPass();
     } 
     
-    // TODO change the name of this method...there is a method in Signin by the same name
-    // confusing
     public void verifyCredentials(RPCCallback successCb, RPCCallback errorCb) {
-    	// here check if credentials exist in DB. If not,
-    	// run RPC call
-    	
-    	// is this needed? User will have to be authenticated each time
-    	//if (this.exists()) {
-    	//	return;//throw an exception?
-    	//}
-    	
     	// This is where the credentials entered will be verified 
     	// against the site via RPC
     	p.authenticateListener(successCb, errorCb);

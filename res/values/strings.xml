@@ -8,5 +8,12 @@
     <string name="enter_password">Enter Password</string>
     <string name="about">About text that needs to be added</string>
     <string name="username_key">username</string>
-    <string name="password_key">[assword</string>
+    <string name="password_key">password</string>
+    <string name="verifying_credentials">Verifying Credentials...</string>
+    <string name="invalid_credentials">InvalidCredentials</string>
+    <string name="general_error">A non-rpc error has occurred. Maybe bad url or io issue :-(</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="retrieving_stations">"Retrieving Stations..."</string>
+    <string name="retrieve_stations_error">Cannot retrieve stations</string>
+    
 </resources>

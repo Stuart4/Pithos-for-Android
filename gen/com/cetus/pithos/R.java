@@ -49,9 +49,15 @@ public final class R {
         public static final int credentials_label=0x7f040002;
         public static final int enter_password=0x7f040005;
         public static final int enter_username=0x7f040004;
+        public static final int general_error=0x7f04000b;
         public static final int hello=0x7f040000;
+        public static final int invalid_credentials=0x7f04000a;
         public static final int pandora_credentials_label=0x7f040003;
         public static final int password_key=0x7f040008;
+        public static final int please_wait=0x7f04000c;
+        public static final int retrieve_stations_error=0x7f04000e;
+        public static final int retrieving_stations=0x7f04000d;
         public static final int username_key=0x7f040007;
+        public static final int verifying_credentials=0x7f040009;
     }
 }

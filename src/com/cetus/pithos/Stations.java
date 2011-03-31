@@ -35,32 +35,22 @@ public class Stations extends Activity {
 	
 	    //get stations
         Pandora p = new Pandora(getApplicationContext());
-        
-        // we're supposed to be signed in and authenticated here
-        // get the stations
-        
+
         final ProgressDialog myProgressDialog = ProgressDialog.show(this,
-                "Please wait...", "Retrieving Stations...", true);// TODO Externalize
+            getString(R.string.please_wait), getString(R.string.retrieving_stations), true);
 		
 		final Context c = this;
 		
         final Intent stations = new Intent(this, Stations.class);
-        final Toast invalid = Toast.makeText(c, "Cannot retrieve stations", 1000);
+        final Toast invalid = Toast.makeText(c, getString(R.string.retrieve_stations_error), 1000);
         
         RPCCallback successCb = new RPCCallback() {
 			public void fire(XMLRPCResponse response) {
-				// we are here after we have succeeded or failed at out RPC
-				// call
 				
-				//end progress here?
 				myProgressDialog.dismiss();
 				
-				// parse response
-				// woo hoo! got station names
 				ArrayList<String> stationNames = response.parseStations();
-				
-				// FC being thrown here
-				
+								
 				Spinner s = (Spinner) findViewById(R.id.stationsList);
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, stationNames);
 				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

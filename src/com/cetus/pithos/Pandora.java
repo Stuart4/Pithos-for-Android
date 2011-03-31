@@ -26,7 +26,6 @@ import android.util.Log;
 
 
 public class Pandora {
-    //private User u;
 	private Context context;
 	
 	public Pandora(Context ctx) {
@@ -53,9 +52,7 @@ public class Pandora {
     }
     
     // Here's our gateway to the RPC interface.
-    // this is gonna have to be threaded
     private void xmlCall(String method, ArrayList<RPCArg> args, final RPCCallback successCb, final RPCCallback errorCb) {
-    	// looking pretty good here.
     	String xml = XMLRPC.constructCall(method, args);
     	
     	String data = this.encrypt(xml);
@@ -77,8 +74,7 @@ public class Pandora {
     private String encrypt(String xml) {
     	BlowFish b = new BlowFish(PandoraKeys.out_key_p, PandoraKeys.out_key_s);
     	String total = "";
-    	
-    	// i = 296 when padding gets attached. 
+    	 
     	for (int i = 0; i < xml.length(); i+=8) {
     		String segment = "";
     		
@@ -89,11 +85,9 @@ public class Pandora {
     			segment = xml.substring(i, i+8);
     		}   		 
     		
-    		// almost there. Still missing a few chars
     		char[] encrypted = b.encrypt(segment);
     		
-    		total += UnicodeFormatter.hexString(encrypted);
-    		//padding only used on end	
+    		total += UnicodeFormatter.hexString(encrypted);	
     	}
     	
     	return total;
@@ -115,7 +109,6 @@ public class Pandora {
     	systemTime = systemTime % 10000000;
     	
     	// not sure this is right
-    	// coming from "self.rid = "%07iP"%(int(time.time()) % 10000000)"
         return systemTime + "P";
     }
 
