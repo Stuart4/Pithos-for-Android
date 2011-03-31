@@ -6,8 +6,7 @@
     
     <Spinner 
     	android:id="@+id/stationsList" 
-    	android:layout_width="300dip" 
-    	android:layout_height="wrap_content">
+    	android:layout_height="wrap_content" android:layout_width="match_parent">
     </Spinner>
      
      <TextView  
