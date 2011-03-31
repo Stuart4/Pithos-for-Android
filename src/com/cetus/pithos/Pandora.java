@@ -37,7 +37,7 @@ public class Pandora {
     	User u = User.getSingleton(this.context);
     	
     	ArrayList<RPCArg> args = new ArrayList<RPCArg>();
-    	args.add(new RPCArgNoType(u.getAttribute("authToken")));
+    	args.add(new RPCArgNoType(u.getAttribute("authToken"))); // not present when signin doesnt fire
     	
     	xmlCall("station.getStations", args, successCb, errorCb);
     }

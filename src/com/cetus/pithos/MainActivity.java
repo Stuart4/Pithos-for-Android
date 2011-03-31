@@ -12,24 +12,16 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
-        //setContentView(R.layout.stations);    
         
         User u = User.getSingleton(getApplicationContext());
         // check if signed in...
-        boolean signedIn = u.isSignedIn();
-        if (signedIn) {
-        	showStations();
-        } else {
-        	showSignin();
-        }
-    }
-
-    private void showSignin() {
-    	startActivity(new Intent(this, Signin.class));
-    }
-    
-    private void showStations() {
-    	startActivity(new Intent(this, Stations.class));
+        boolean haveCredentials = u.exists();
+        
+        Intent signin = new Intent(this, Signin.class);
+        
+        if (haveCredentials)
+        	signin.putExtra("haveCredentials", haveCredentials);
+        
+        startActivity(signin);
     }
 }

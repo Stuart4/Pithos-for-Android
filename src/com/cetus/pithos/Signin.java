@@ -23,29 +23,38 @@ public class Signin extends Activity {
         setContentView(R.layout.signin);
         
         u = User.getSingleton(getApplicationContext());
+        Bundle extras = getIntent().getExtras();
+        boolean haveCredentials = false;
         
-        Button login = (Button) findViewById(R.id.signinButton);
+        if (extras != null)
+        	haveCredentials = extras.getBoolean("haveCredentials");
         
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-			public void onClick(View v) {
-				// get the username and password
-				TextView un = (EditText) findViewById(R.id.username);
-				TextView pw = (EditText) findViewById(R.id.password);
-				
-				String usernameValue = un.getText().toString();
-				String passwordValue = pw.getText().toString();
-				
-				if (usernameValue.equalsIgnoreCase("") || passwordValue.equalsIgnoreCase("")) {
-					Toast.makeText(getApplicationContext(), "missing credentials", 1000).show();	
-				} else {
-					validateUser(usernameValue, passwordValue);
+        if (haveCredentials) {
+        	signinUser(u.getUsername(), u.getPassword());
+        } else {
+	        Button login = (Button) findViewById(R.id.signinButton);
+	        
+	        login.setOnClickListener(new View.OnClickListener() {
+	            @Override
+				public void onClick(View v) {
+					// get the username and password
+					TextView un = (EditText) findViewById(R.id.username);
+					TextView pw = (EditText) findViewById(R.id.password);
+					
+					String usernameValue = un.getText().toString();
+					String passwordValue = pw.getText().toString();
+					
+					if (usernameValue.equalsIgnoreCase("") || passwordValue.equalsIgnoreCase("")) {
+						Toast.makeText(getApplicationContext(), "missing credentials", 1000).show();	
+					} else {
+						signinUser(usernameValue, passwordValue);
+					}
 				}
-			}
-		});        
+			});
+        }
     }
 	
-	private void validateUser(String username, String password) {
+	private void signinUser(String username, String password) {
 		u.setUsername(username);
 		u.setPassword(password);
 		
@@ -68,6 +77,7 @@ public class Signin extends Activity {
 				
 				if (response.hasFault()) {
 					invalidCredentials.show();
+					// send back to signin screen?
 				} else {
 					// parse response, add to user
 					response.parseUser();

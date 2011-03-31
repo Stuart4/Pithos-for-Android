@@ -6,8 +6,11 @@ import com.cetus.pithos.XMLRPC.RPCCallback;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import static android.provider.BaseColumns._ID;
@@ -18,14 +21,14 @@ import static com.cetus.pithos.Constants.PASSWORD;
 public class User {
 	private UserData userData;
 	private Context context;
-	private String username;
-	private String password;
+	private String username = null;
+	private String password = null;
 	private Pandora p;
 	private static User singleton;
 	HashMap attributes = new HashMap();
 	
     public User(Context ctx) {
-    	userData = new UserData(ctx);
+    	//userData = new UserData(ctx);
     	this.context = ctx;
     	this.loadUser();// loads if user exists
         p = new Pandora(ctx);
@@ -33,13 +36,8 @@ public class User {
     
     // TODO wrap this, sanitize input but maintain interface
     public void create() {
-    	SQLiteDatabase db = userData.getWritableDatabase();
-    	ContentValues values = new ContentValues();
-
-    	values.put(USERNAME, this.username);
-    	values.put(PASSWORD, this.password);
-
-    	db.insertOrThrow(TABLE_NAME, null, values);
+    	// add credentials to preferences
+    	this.prefsSetUserPass();
     } 
     
     // TODO change the name of this method...there is a method in Signin by the same name
@@ -47,45 +45,24 @@ public class User {
     public void verifyCredentials(RPCCallback successCb, RPCCallback errorCb) {
     	// here check if credentials exist in DB. If not,
     	// run RPC call
-    	if (this.exists()) {
-    		return;//throw an exception?
-    	}
+    	
+    	// is this needed? User will have to be authenticated each time
+    	//if (this.exists()) {
+    	//	return;//throw an exception?
+    	//}
     	
     	// This is where the credentials entered will be verified 
     	// against the site via RPC
     	p.authenticateListener(successCb, errorCb);
     }
     
-    // user exists in the database. 
-    // checked against instance values
+    // only checks if user info is set in preferences. Not whether it
+    // is correct or not
     public boolean exists() {
-    	SQLiteDatabase db = userData.getReadableDatabase();
-        String select = "Select _id, title, title_raw from search Where(title_raw like " + this.username + ")";
-                
-        Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
-        		USERNAME + " like '%" + this.username + "%'", null, null, null, null);
-        
-        db.close();
-        
-        int count = cursor.getCount();        
-    	
-        cursor.close();
-        
-    	return count >= 1;
-    }
-     
-    // check if a user exists in the database here.
-    // whose job is it gonna be to enforce the integrity
-    // user data (ensure multiple values are not able to get into db, etc.)
-    public boolean isSignedIn() {
-    	SQLiteDatabase db = userData.getReadableDatabase();
-        
-        Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
-        		null, null, null, null, null);
-        
-        int count = cursor.getCount();    
-    	
-    	return count >= 1;
+    	if (!this.username.equalsIgnoreCase("") && !this.password.equalsIgnoreCase(""))
+    		return true;
+    	else
+    		return false;
     }
     
     public static synchronized User getSingleton(Context c) {
@@ -110,29 +87,11 @@ public class User {
     	return (String) this.attributes.get(key);
     }
     
-    // TODO: Definitley gonna need a refactor in this class
     private boolean loadUser() {
-    	SQLiteDatabase db = userData.getReadableDatabase();
-        
-        Cursor cursor = db.query(TABLE_NAME, new String[] {_ID, USERNAME, PASSWORD}, 
-        		null, null, null, null, null);
-        
-        db.close();
-        // is this necessary, does query return null if there are no results?
-        boolean result = cursor.getCount() >= 1;
-        
-        if (result) {
-        	if (cursor.moveToFirst()) {
-        		int userNameColumn = cursor.getColumnIndex(USERNAME);
-                int passwordColumn = cursor.getColumnIndex(PASSWORD);
-                this.username = cursor.getString(userNameColumn);
-                this.password = cursor.getString(passwordColumn);
-                return true;
-        	}
-        }
-        
-        cursor.close();
-        
+    	// retrieve credentials from preferences and
+    	// instantiate object
+    	this.username = this.prefsGetUser();
+    	this.password = this.prefsGetPassword();
         return false;
     }
     
@@ -151,5 +110,47 @@ public class User {
     public String getPassword() { 
         return this.password;
     }
+
+    private void prefsSetUserPass() {
+    	SharedPreferences sprefs = PreferenceManager.getDefaultSharedPreferences(this.context); 
+    	Editor e = sprefs.edit();
+    	String usernameKey = this.context.getString(R.string.username_key);     
+    	String passwordKey = this.context.getString(R.string.password_key);
+    	
+    	e.putString(usernameKey, this.username);
+    	e.putString(passwordKey, this.password);
+    	e.commit();
+    }
+ 
+    private String prefsGetUser() {
+    	String username = "";
+        
+    	SharedPreferences sprefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+        
+        String key = this.context.getString(R.string.username_key);
+        
+        try {
+            username = sprefs.getString(key, "");
+        } catch (ClassCastException e) {
+        	//hmmmmm
+        }
+    	
+    	return username;
+    }
     
+    private String prefsGetPassword() {
+        String password = "";
+        
+    	SharedPreferences sprefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+        
+        String key = this.context.getString(R.string.password_key);
+        
+        try {
+            password = sprefs.getString(key, "");
+        } catch (ClassCastException e) {
+        	//hmmmmm
+        }
+    	
+    	return password;
+    }
 }

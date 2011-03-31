@@ -7,4 +7,6 @@
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
     <string name="about">About text that needs to be added</string>
+    <string name="username_key">username</string>
+    <string name="password_key">[assword</string>
 </resources>
