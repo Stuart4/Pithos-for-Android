@@ -23,11 +23,8 @@ public class Signin extends Activity {
         setContentView(R.layout.signin);
         
         u = User.getSingleton(getApplicationContext());
-        Bundle extras = getIntent().getExtras();
-        boolean haveCredentials = false;
         
-        if (extras != null)
-        	haveCredentials = extras.getBoolean("haveCredentials");
+        boolean haveCredentials = u.exists();
         
         if (haveCredentials) {
         	signinUser(u.getUsername(), u.getPassword());
@@ -107,4 +104,13 @@ public class Signin extends Activity {
 		
 		u.verifyCredentials(successCb, errorCb);
 	}
+
+    protected void onResume() {
+    	super.onResume();
+    	User u = User.getSingleton(getApplicationContext());
+    	
+    	if (u.exists()) {
+    		signinUser(u.getUsername(), u.getPassword());
+    	}
+    }
 }

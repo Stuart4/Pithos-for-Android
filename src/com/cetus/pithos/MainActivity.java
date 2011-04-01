@@ -12,16 +12,17 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        User u = User.getSingleton(getApplicationContext());
-        // check if signed in...
-        boolean haveCredentials = u.exists();
-        
+        this.goToSignin();
+    }
+    
+    public void goToSignin() {
+    	User u = User.getSingleton(getApplicationContext());
         Intent signin = new Intent(this, Signin.class);
-        
-        if (haveCredentials)
-        	signin.putExtra("haveCredentials", haveCredentials);
-        
         startActivity(signin);
+    }
+    
+    protected void onResume() {
+    	super.onResume();
+    	this.goToSignin();
     }
 }
