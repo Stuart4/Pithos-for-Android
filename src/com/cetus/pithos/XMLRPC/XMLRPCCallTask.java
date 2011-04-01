@@ -86,5 +86,11 @@ public class XMLRPCCallTask extends AsyncTask<Object,Object,Object> {
 	protected void onPostExecute(Object result) { 
 		super.onPostExecute(result);
 		this.successCb.fire(new XMLRPCResponse(this.response));
-	}	
+	}
+	
+	public void abort(String err) {
+		XMLRPCResponse errResponse = new XMLRPCResponse();
+		errResponse.setErrorString(err);
+		this.errorCb.fire(errResponse);
+	}
 }

@@ -2,12 +2,10 @@
 <TableLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent" 
-    android:layout_width="fill_parent"
-    >
+    android:layout_width="fill_parent">
     
     <TableRow
-        android:layout_marginBottom="20sp" 
-    >
+        android:layout_marginBottom="20sp">
         
         <ImageView 
 			android:src="@drawable/icon"
@@ -34,11 +32,8 @@
 	     	android:textSize="10sp" 
 	        android:id="@+id/textView1" 
 	        android:text="For Android" 
-	         
-	         
 	        android:paddingTop="35sp"
-	        android:layout_marginLeft="69sp" 
-	        >
+	        android:layout_marginLeft="69sp">
 	    </TextView>
 	            
     </TableRow>
@@ -47,7 +42,6 @@
         <EditText 
             android:id="@+id/username"
             android:hint="@string/enter_username" 
-             
             android:layout_width="300dip"/>
     </TableRow> 
     
@@ -56,7 +50,6 @@
             android:id="@+id/password"
             android:hint="@string/enter_password"  
             android:password="true"
-            
             android:layout_width="300dip" />
     </TableRow>
     
@@ -64,7 +57,6 @@
         <Button 
             android:text="Login" 
             android:id="@+id/signinButton"
-            android:layout_width="200dip"
-            />
+            android:layout_width="200dip" />
     </TableRow>
 </TableLayout>

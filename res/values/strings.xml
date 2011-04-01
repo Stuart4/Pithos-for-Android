@@ -15,5 +15,6 @@
     <string name="please_wait">Please wait...</string>
     <string name="retrieving_stations">"Retrieving Stations..."</string>
     <string name="retrieve_stations_error">Cannot retrieve stations</string>
-    
+    <string name="wifi_only_error">Wifi only mode is set. You are not on wifi</string>
+    <string name="wifi_only_key">wifi_only</string>
 </resources>

@@ -22,6 +22,10 @@ import com.cetus.pithos.Encryption.BlowFish;
 import static com.cetus.pithos.Constants.RPC_URL;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
@@ -36,7 +40,7 @@ public class Pandora {
     	User u = User.getSingleton(this.context);
     	
     	ArrayList<RPCArg> args = new ArrayList<RPCArg>();
-    	args.add(new RPCArgNoType(u.getAttribute("authToken"))); // not present when signin doesnt fire
+    	args.add(new RPCArgNoType(u.getAttribute("authToken")));
     	
     	xmlCall("station.getStations", args, successCb, errorCb);
     }
@@ -67,7 +71,20 @@ public class Pandora {
     	
     	url += "&method=" + method;
     	
-    	new XMLRPCCallTask(url, data, successCb, errorCb).execute();
+    	// wifi only preference check
+    	XMLRPCCallTask task = new XMLRPCCallTask(url, data, successCb, errorCb);
+    	
+    	// check preferences
+    	SharedPreferences sprefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+    	String key = this.context.getString(R.string.wifi_only_key);
+    	boolean wifiOnly = sprefs.getBoolean(key, false);
+    	boolean onWifi = this.isOnWifi();
+    	
+    	if (wifiOnly && !onWifi) {
+    		task.abort(this.context.getString(R.string.wifi_only_error));
+    	} else {
+    		task.execute();
+    	}
     }
 
     // encrypt RPC details..
@@ -115,5 +132,14 @@ public class Pandora {
     private String getListenerId() {
     	User u = User.getSingleton(this.context);
     	return u.getAttribute("listenerId");
+    }
+
+    private boolean isOnWifi() {
+    	WifiManager wifi = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
+    	boolean wifiEnabled = wifi.isWifiEnabled();
+    	WifiInfo info = wifi.getConnectionInfo();
+    	String ssid = info.getSSID();
+    	
+    	return wifiEnabled && ssid != null;
     }
 }

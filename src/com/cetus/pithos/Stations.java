@@ -87,7 +87,7 @@ public class Stations extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.credentials:
-            showSettings();
+            showPreferences();
             return true;
         case R.id.about:
         	showAbout();
@@ -102,8 +102,8 @@ public class Stations extends Activity {
     	  super.onConfigurationChanged(newConfig);
     }
 
-    private void showSettings() {
-    	startActivity(new Intent(this, Settings.class));
+    private void showPreferences() {
+    	startActivity(new Intent(this, Preferences.class));
     }
     
     private void showAbout() { 

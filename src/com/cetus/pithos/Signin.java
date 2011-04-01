@@ -96,7 +96,11 @@ public class Signin extends Activity {
 				
 				// this is a network error. not a credentials signin error
 				myProgressDialog.dismiss();
-				error.show();
+				
+				if (response.hasErrors()) {
+					Toast.makeText(c, response.getErrorString(), 1000).show();
+				}
+				//error.show();
 				Log.e("pithos", "Firing error callback");
 			}			
 		};

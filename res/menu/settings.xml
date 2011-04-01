@@ -34,5 +34,5 @@
     	android:menuCategory="container" 
     	android:id="@+id/about"
     	android:title="About"
-    	android:icon="@android:drawable/ic_dialog_info"></item>
+    	android:icon="@android:drawable/ic_menu_info_details"></item>
 </menu>

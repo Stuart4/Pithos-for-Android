@@ -21,13 +21,24 @@ public class XMLRPCResponse {
 	// TODO: this whole class is a disaster. Need either a better way of handling XML
 	// or a serious refactor
 	private String xml;
+	private String errorString;
 	
     public XMLRPCResponse(String xml) {
     	this.xml = xml;
     }
     
-    public String getResponseString() {
+    public XMLRPCResponse() {}
+
+	public String getResponseString() {
     	return this.xml;
+    }
+    
+    public void setErrorString(String err) {
+        this.errorString = err;    	
+    }
+    
+    public String getErrorString() {
+    	return this.errorString;
     }
     
     public void parseUser() {
@@ -129,7 +140,11 @@ public class XMLRPCResponse {
 	    return stationNames;
     }
     
-    public boolean hasFault() {        
+    public boolean hasErrors() {
+    	return this.errorString == null || !this.errorString.equalsIgnoreCase("");
+    }
+    
+    public boolean hasFault() {
         try {
     		DocumentBuilderFactory dbf =
     	    DocumentBuilderFactory.newInstance();
