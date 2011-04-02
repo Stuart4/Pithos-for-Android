@@ -11,24 +11,29 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_menu_love=0x7f020000;
-        public static final int ic_menu_sad=0x7f020001;
-        public static final int ic_menu_stop=0x7f020002;
-        public static final int icon=0x7f020003;
+        public static final int geogaddi=0x7f020000;
+        public static final int ic_menu_love=0x7f020001;
+        public static final int ic_menu_sad=0x7f020002;
+        public static final int ic_menu_stop=0x7f020003;
+        public static final int icon=0x7f020004;
     }
     public static final class id {
-        public static final int about=0x7f07000c;
-        public static final int ban=0x7f070008;
-        public static final int credentials=0x7f07000b;
+        public static final int about=0x7f070010;
+        public static final int ban=0x7f07000c;
+        public static final int credentials=0x7f07000f;
+        public static final int icon=0x7f070007;
+        public static final int imageButton1=0x7f070008;
+        public static final int imageButton2=0x7f070009;
+        public static final int imageButton3=0x7f07000a;
         public static final int imageView1=0x7f070002;
         public static final int layout_root=0x7f070001;
-        public static final int love=0x7f070007;
+        public static final int love=0x7f07000b;
         public static final int password=0x7f070004;
         public static final int signinButton=0x7f070005;
-        public static final int skip=0x7f070009;
+        public static final int skip=0x7f07000d;
         public static final int stationsList=0x7f070006;
         public static final int textView1=0x7f070000;
-        public static final int tired=0x7f07000a;
+        public static final int tired=0x7f07000e;
         public static final int username=0x7f070003;
     }
     public static final class layout {
