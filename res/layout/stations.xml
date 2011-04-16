@@ -1,88 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent" 
   android:layout_height="match_parent"
-  android:orientation="vertical">    
+  android:orientation="vertical" android:gravity="bottom">    
     
     <!-- stations list -->
-    <LinearLayout
+    <RelativeLayout
 	    android:orientation="horizontal"
 	    android:layout_width="match_parent" 
-	    android:layout_height="50dip">
+	    android:layout_height="50dip"
+	    android:layout_alignParentTop="true">
 	    
 	    <Spinner 
 	    	android:id="@+id/stationsList" 
 	    	android:layout_height="wrap_content" 
 	    	android:layout_width="match_parent">
 	    </Spinner>
-    </LinearLayout>
+    </RelativeLayout>
     <!-- /stations list -->
    
-    <LinearLayout
-    	android:layout_width="fill_parent"
-    	android:layout_height="275dip"
-    	android:paddingLeft="5px">
+   
+    <RelativeLayout
+    	android:id="@+id/InnerRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" android:gravity="bottom">
+	    
+        <ImageButton 
+            android:id="@+id/imageButton1" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_alignParentLeft="true"
+            android:src="@android:drawable/ic_media_play"
+            android:layout_marginTop="10px">
+        </ImageButton>
+        
+        <ImageButton 
+            android:id="@+id/imageButton2" 
+            android:layout_toRightOf="@+id/imageButton1"
+            android:layout_marginRight="110px"
+            android:src="@android:drawable/ic_media_next" 
+            android:layout_height="wrap_content" 
+            android:layout_width="wrap_content" 
+            android:layout_marginTop="10px">
+        </ImageButton>
+        
+        <ImageButton 
+            android:id="@+id/imageButton3" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_alignParentRight="true" 
+            android:src="@android:drawable/ic_dialog_info" android:layout_marginTop="10px"></ImageButton>        
+    </RelativeLayout>
     
-    	<ImageView
-        	android:id="@+id/icon"
-	        android:layout_width="60px"
-	        android:layout_height="wrap_content"
-	        android:layout_marginRight="6dip"
-	        android:src="@drawable/geogaddi" />
-
-   	 	<LinearLayout
-        	android:orientation="vertical"
-    		android:layout_width="0dip"
-        	android:layout_weight="1"
-        	android:layout_height="fill_parent">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Song Title" />
-            
-        <TextView  
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1" 
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:text="what is this?" />
-            
-	</LinearLayout>
-
-</LinearLayout>
-    <!-- controls -->
-    <LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="bottom">
-	     
-	    <ImageButton 
-	    	android:id="@+id/imageButton1" 
-	    	android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content" 
-	    	android:src="@android:drawable/ic_media_play">
-	    </ImageButton>
-	    
-	    <ImageButton 
-	    	android:id="@+id/imageButton2" 
-	    	android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content" 
-	    	android:src="@android:drawable/ic_media_next" android:layout_marginRight="110px">
-	    </ImageButton>
-	    
-	    <ImageButton 
-	    	android:id="@+id/imageButton3" 
-	    	android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content" 
-	    	android:src="@android:drawable/ic_menu_info_details"></ImageButton>	    
-	    
-    </LinearLayout>
-    <!-- controls -->
     
-</LinearLayout>
+</RelativeLayout>

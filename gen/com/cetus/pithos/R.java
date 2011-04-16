@@ -18,10 +18,10 @@ public final class R {
         public static final int icon=0x7f020004;
     }
     public static final class id {
+        public static final int InnerRelativeLayout=0x7f070007;
         public static final int about=0x7f070010;
         public static final int ban=0x7f07000c;
         public static final int credentials=0x7f07000f;
-        public static final int icon=0x7f070007;
         public static final int imageButton1=0x7f070008;
         public static final int imageButton2=0x7f070009;
         public static final int imageButton3=0x7f07000a;
