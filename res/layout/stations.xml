@@ -7,6 +7,7 @@
     
     <!-- stations list -->
     <RelativeLayout
+        android:id="@+id/stationsContainer"
 	    android:orientation="horizontal"
 	    android:layout_width="match_parent" 
 	    android:layout_height="50dip"
@@ -17,15 +18,40 @@
 	    	android:layout_height="wrap_content" 
 	    	android:layout_width="match_parent">
 	    </Spinner>
+	    
     </RelativeLayout>
     <!-- /stations list -->
-   
+    
+    <RelativeLayout
+        android:orientation="vertical"
+	    android:layout_width="match_parent" 
+	    android:layout_below="@+id/stationsContainer" 
+	    android:layout_height="fill_parent"
+	    android:layout_marginBottom="50dip">
+	    
+	   <ScrollView 
+	   		android:layout_marginBottom="50dip" 
+	   		android:id="@+id/ScrollView01" 
+	   		android:layout_height="wrap_content" 
+	   		android:layout_width="fill_parent">
+	          
+	         <!-- songs -->
+	        <ListView
+	            android:id="@+id/songList"
+	            android:layout_height="fill_parent"
+                android:layout_width="fill_parent" />
+	         
+	        <!-- songs -->
+	         
+	     </ScrollView>
+     </RelativeLayout>
    
     <RelativeLayout
     	android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" android:gravity="bottom">
+        android:layout_alignParentBottom="true" 
+        android:gravity="bottom">
 	    
         <ImageButton 
             android:id="@+id/imageButton1" 

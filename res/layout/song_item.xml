@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="horizontal" 
+  android:gravity="top">
+     
+    <ImageView 
+        android:id="@+id/imageView1"
+        android:src="@drawable/geogaddi"
+        android:layout_alignParentLeft="true" 
+        android:layout_height="50px"
+        android:layout_width="50px" 
+        android:scaleType="fitXY" 
+        android:layout_marginTop="5px" 
+        android:layout_marginLeft="5px" 
+        android:layout_gravity="left"/>
+     
+    <TwoLineListItem 
+    	android:id="@+id/twoLineListItem1" 
+    	android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" android:layout_marginLeft="60px" android:layout_marginTop="5px">
+    	
+	    <TextView android:id="@android:id/text1"
+	        android:layout_marginTop="1dip"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="15sp"
+	        android:textColor="#ffffff"
+	        android:text="Music is Math"
+	        android:textStyle="bold" />
+	
+	    <TextView android:id="@android:id/text2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@android:id/text1"
+	        android:layout_alignLeft="@android:id/text1"
+	        android:paddingBottom="4dip"
+	        android:includeFontPadding="false"
+	        android:textSize="15sp"
+	        android:text="by Boards Of Canada on Geogaddi"
+	        android:textStyle="normal" />
+    	
+    </TwoLineListItem>
+    
+    
+    	
+    	
+</RelativeLayout>
