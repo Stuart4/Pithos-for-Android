@@ -2,6 +2,7 @@ package com.cetus.pithos;
 
 public class Song {
     private String artist, album, songTitle;
+    private boolean played = false;
     
     public Song() {}
     
@@ -21,5 +22,13 @@ public class Song {
 	
     public String getSongTitle() {
     	return this.songTitle;
+    }
+    
+    public String getArtistAlbum() {
+    	return "by " + this.artist + " on " + this.album;
+    }
+    
+    public boolean played() {
+    	return this.played;
     }
 }

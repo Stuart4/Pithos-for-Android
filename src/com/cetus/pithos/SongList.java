@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 public class SongList extends ArrayAdapter<Song> {
     
@@ -29,17 +31,18 @@ public class SongList extends ArrayAdapter<Song> {
 
 		Song song = songs.get(position);
 		if (song != null) {
-			//TextView tt = (TextView) v.findViewById(R.id.contentText);
-			/*
-			if (tt != null) {
-				tt.setText(o);
+			
+			TextView songLabel = (TextView) v.findViewById(R.id.songTitle);
+			TextView artistAlbumLabel = (TextView) v.findViewById(R.id.artistAlbum);
+			
+			if (songLabel != null && artistAlbumLabel != null) {
+				songLabel.setText(song.getSongTitle());
+				artistAlbumLabel.setText(song.getArtistAlbum());
 			}
-			for(String value : targets) {
-				if(value.equals("" + position)) {
-					tt.setTextColor(Color.BLACK);
-				}
+			
+			if (song.played()) {
+				songLabel.setTextColor(Color.GRAY);
 			}
-			*/
 		}
 		return v;
 	}

@@ -62,10 +62,12 @@ public class Pandora {
 		};
 		
 		ArrayList<Song> songList = new ArrayList<Song>();
-		songList.add(new Song("Boards Of Canada", "Geogaddi", "Music is Math"));
-		songList.add(new Song("Boards Of Canada", "Geogaddi", "Music is Math"));
-		songList.add(new Song("Boards Of Canada", "Geogaddi", "Music is Math"));
-		
+		songList.add(new Song("Boards Of Canada", "Music Has The Right To Children", "Wildlife Analysis"));
+		songList.add(new Song("Boards Of Canada", "Music Has The Right To Children", "Wildlife Analysis"));
+		songList.add(new Song("Boards Of Canada", "Music Has The Right To Children", "Wildlife Analysis"));
+		songList.add(new Song("Boards Of Canada", "Music Has The Right To Children", "Wildlife Analysis"));
+		songList.add(new Song("Boards Of Canada", "Music Has The Right To Children", "Wildlife Analysis"));
+		songList.add(new Song("Boards Of Canada", "Music Has The Right To Children", "Wildlife Analysis"));
 		SongList adapter = new SongList(this.context,R.layout.song_item, songList);
 		
 		listView.setAdapter(adapter);		
