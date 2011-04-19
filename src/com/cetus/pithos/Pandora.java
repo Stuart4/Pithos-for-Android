@@ -1,32 +1,26 @@
 package com.cetus.pithos;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import com.cetus.pithos.XMLRPC.RPCArg;
-import com.cetus.pithos.XMLRPC.RPCArgInt;
 import com.cetus.pithos.XMLRPC.RPCArgNoType;
 import com.cetus.pithos.XMLRPC.RPCArgString;
 import com.cetus.pithos.XMLRPC.RPCCallback;
 import com.cetus.pithos.XMLRPC.XMLRPC;
 import com.cetus.pithos.XMLRPC.XMLRPCCallTask;
+import com.cetus.pithos.XMLRPC.XMLRPCResponse;
 import com.cetus.pithos.Utils.UnicodeFormatter;
 import com.cetus.pithos.Encryption.BlowFish;
-
 import static com.cetus.pithos.Constants.RPC_URL;
-
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class Pandora {
@@ -53,6 +47,28 @@ public class Pandora {
     	args.add(new RPCArgString(u.getPassword()));
     	
     	xmlCall("listener.authenticateListener", args, successCb, errorCb);
+    }
+    
+    public void populateSongList(ListView listView, String stationName) {
+    	// Stations.java getting a bit crowded with callbacks. Moving ones needed for
+    	// this functionality to this class.
+
+    	// stationName coming in as string
+        RPCCallback successCb = new RPCCallback() {
+			public void fire(XMLRPCResponse response) {
+				Log.i("pithos", "Firing success callback for song list");
+				
+			}			
+		};
+		
+		ArrayList<Song> songList = new ArrayList<Song>();
+		songList.add(new Song("Boards Of Canada", "Geogaddi", "Music is Math"));
+		songList.add(new Song("Boards Of Canada", "Geogaddi", "Music is Math"));
+		songList.add(new Song("Boards Of Canada", "Geogaddi", "Music is Math"));
+		
+		SongList adapter = new SongList(this.context,R.layout.song_item, songList);
+		
+		listView.setAdapter(adapter);		
     }
     
     // Here's our gateway to the RPC interface.

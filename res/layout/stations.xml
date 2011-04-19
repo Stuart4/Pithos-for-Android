@@ -29,21 +29,28 @@
 	    android:layout_height="fill_parent"
 	    android:layout_marginBottom="50dip">
 	    
+	    <ListView
+	            android:id="@+id/songList"
+	            android:layout_height="fill_parent"
+                android:layout_width="fill_parent" />
+                
+	  <!--   
 	   <ScrollView 
 	   		android:layout_marginBottom="50dip" 
 	   		android:id="@+id/ScrollView01" 
 	   		android:layout_height="wrap_content" 
 	   		android:layout_width="fill_parent">
 	          
-	         <!-- songs -->
+	         
 	        <ListView
 	            android:id="@+id/songList"
 	            android:layout_height="fill_parent"
                 android:layout_width="fill_parent" />
 	         
-	        <!-- songs -->
+	        
 	         
 	     </ScrollView>
+	      -->
      </RelativeLayout>
    
     <RelativeLayout

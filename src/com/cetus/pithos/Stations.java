@@ -20,8 +20,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +37,7 @@ public class Stations extends Activity {
         setContentView(R.layout.stations);
 	
 	    //get stations
-        Pandora p = new Pandora(getApplicationContext());
+        final Pandora p = new Pandora(getApplicationContext());
 
         final ProgressDialog myProgressDialog = ProgressDialog.show(this,
             getString(R.string.please_wait), getString(R.string.retrieving_stations), true);
@@ -52,10 +55,23 @@ public class Stations extends Activity {
 				ArrayList<String> stationNames = response.parseStations();
 								
 				Spinner s = (Spinner) findViewById(R.id.stationsList);
+				final ListView listView = (ListView) findViewById(R.id.songList);
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item, stationNames);
 				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				
 				s.setAdapter(adapter);
+				
+				s.setOnItemSelectedListener(new OnItemSelectedListener() {
+				    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				        String stationName = parentView.getItemAtPosition(position).toString();
+				        p.populateSongList(listView, stationName);
+				    }
+
+				    public void onNothingSelected(AdapterView<?> parentView) {
+				        
+				    }
+
+				});
 				
 				Log.i("pithos", "Firing success callback for stations");
 			}			
